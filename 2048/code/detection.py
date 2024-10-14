@@ -2,6 +2,66 @@ import random as rand
 import turtle as trtl
 wn =trtl.Screen()
 arr = [[None, None, None, None], [None, None, None, None], [None, None, None, None], [None, None, None, None]]
+minen = {"00":None, "01":None, "02":None, "03":None, "10":None, "11":None, "12":None, "13":None, "20":None, "21":None, "22":None, "23":None, "30":None, "31":None, "32":None, "33":None}
+hoopla = []
+font_setup = ("Arial", 20, "normal")
+for i in range (1,17):
+    m = trtl.Turtle()
+    m.penup()
+    hoopla.append(m)
+time = 0
+row=0
+for t in hoopla:
+    if (time ==4):
+        row+=1
+        time =0
+    t.goto((50*time),(-50*row))
+    time+=1
+
+
+
+
+def update():
+    for index in range(0,4):
+        for inden in range(0,4):
+            if (arr[index][inden]==None):
+                minen[f"{index}{inden}"]= None
+            elif (arr[index][inden]==1):
+                minen[f"{index}{inden}"]= 1
+            elif (arr[index][inden]==2):
+                minen[f"{index}{inden}"]= 2
+            elif (arr[index][inden]==3):
+                minen[f"{index}{inden}"]= 3
+            elif (arr[index][inden]==4):
+                minen[f"{index}{inden}"]= 4
+            elif (arr[index][inden]==5):
+                minen[f"{index}{inden}"]= 5
+            elif (arr[index][inden]==6):
+                minen[f"{index}{inden}"]= 6
+            elif (arr[index][inden]==7):
+                minen[f"{index}{inden}"]= 7
+            elif (arr[index][inden]==8):
+                minen[f"{index}{inden}"]= 8
+            elif (arr[index][inden]==9):
+                minen[f"{index}{inden}"]= 9
+            elif (arr[index][inden]==10):
+                minen[f"{index}{inden}"]= 10
+            elif (arr[index][inden]==11):
+                minen[f"{index}{inden}"]= 11
+    
+def change():
+    index = 0
+    inden =0
+    for m in hoopla:
+        m.write(minen.get(f"{index}{inden}"),font_setup)
+        inden+=1
+        if (inden>3):
+            index+=1
+            inden=0
+
+
+
+
 def rand_start():
     x= rand.randint(0,3)
     x2= rand.randint(0,3)
@@ -13,7 +73,6 @@ def rand_start():
     arr[y][x] =1
     arr[y2][x2] =1
     print(arr)
-    print(arr[y][x]+arr[y2][x2])
     
 def rand_normal():
     g=0
@@ -24,6 +83,8 @@ def rand_normal():
 
     if (g==16):
         print("Game Over")
+
+
     else:
         x = rand.randint(0,3)
         y = rand.randint(0,3)
@@ -50,7 +111,6 @@ def allleft():
                     arr[index][inden+space]= None
             else:
                 pass
-    print(arr)
 
 def allright():
     for index in range(0,4):
@@ -66,7 +126,6 @@ def allright():
                     arr[index][-inden+space]= None
             else:
                 pass
-    print(arr)
 
 def allup():
     for index in range(0,4):
@@ -82,7 +141,6 @@ def allup():
                     arr[inden+space][index]= None
             else:
                 pass
-    print(arr)
 
 def alldown():
     for index in range(0,4):
@@ -98,7 +156,6 @@ def alldown():
                     arr[-inden+space][index]= None
             else:
                 pass
-    print(arr)
 
 def right():
      allright()
@@ -115,7 +172,7 @@ def right():
                 pass
      allright()
      rand_normal()
-     print(arr)
+     update()
 
 def left():
      allleft()
@@ -132,7 +189,7 @@ def left():
                 pass
      allleft()
      rand_normal()
-     print(arr)
+     update()
 
 
 def up():
@@ -150,7 +207,7 @@ def up():
                 pass
     allup()
     rand_normal()
-    print(arr)
+    update()
 
 
 def down():
@@ -168,13 +225,15 @@ def down():
                 pass
      alldown()
      rand_normal()
-     print(arr)
+     update()
+
 
 
     
 
 rand_start()
 print(arr)
+wn.onkeypress(change,"n")
 wn.onkeypress(right,"Right")
 wn.onkeypress(left,"Left")
 wn.onkeypress(up,"Up")
