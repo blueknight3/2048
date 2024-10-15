@@ -1,12 +1,41 @@
+from tkinter import PhotoImage
+from turtle import Turtle, Screen, Shape
 import random as rand
 import turtle as trtl
 wn =trtl.Screen()
+wn.bgpic("2048 background.png")
+
+min1= PhotoImage(file=r"minion 1.png").subsample(17,17)
+min2= PhotoImage(file=r"minion 2.png").subsample(8,8)
+min3= PhotoImage(file=r"minion 3.png").subsample(3,3)
+min4= PhotoImage(file=r"minion 4.png").subsample(2,2)
+min5= PhotoImage(file=r"minion 5.png").subsample(3,3)
+min6= PhotoImage(file=r"minion 6.png").subsample(3,3)
+min7= PhotoImage(file=r"minion 7.png").subsample(13,13)
+min8= PhotoImage(file=r"minion 8.png").subsample(5,5)
+min9= PhotoImage(file=r"minion 9.png").subsample(3,3)
+min10= PhotoImage(file=r"minion 10.png").subsample(15,15)
+min11= PhotoImage(file=r"minion 11.png").subsample(8,8)
+
+wn.addshape("min1", Shape("image", min1))
+wn.addshape("min2", Shape("image", min2))
+wn.addshape("min3", Shape("image", min3))
+wn.addshape("min4", Shape("image", min4))
+wn.addshape("min5", Shape("image", min5))
+wn.addshape("min6", Shape("image", min6))
+wn.addshape("min7", Shape("image", min7))
+wn.addshape("min8", Shape("image", min8))
+wn.addshape("min9", Shape("image", min9))
+wn.addshape("min10", Shape("image", min10))
+wn.addshape("min11", Shape("image", min11))
+
+
 arr = [[None, None, None, None], [None, None, None, None], [None, None, None, None], [None, None, None, None]]
-minen = {"00":None, "01":None, "02":None, "03":None, "10":None, "11":None, "12":None, "13":None, "20":None, "21":None, "22":None, "23":None, "30":None, "31":None, "32":None, "33":None}
+minen = {"00":0, "01":0, "02":0, "03":0, "10":0, "11":0, "12":0, "13":0, "20":0, "21":0, "22":0, "23":0, "30":0, "31":0, "32":0, "33":0}
 hoopla = []
-font_setup = ("Arial", 20, "normal")
 for i in range (1,17):
-    m = trtl.Turtle()
+    m = trtl.Turtle("blank")
+    m.speed("fastest")
     m.penup()
     hoopla.append(m)
 time = 0
@@ -15,17 +44,22 @@ for t in hoopla:
     if (time ==4):
         row+=1
         time =0
-    t.goto((50*time),(-50*row))
+    t.goto((78*time-110),(-78*row+60))
     time+=1
 
-
+def Game_Over():
+    go =trtl.Turtle("blank")
+    go.penup
+    go.speed("fastest")
+    go.goto(-100,0)
+    go.write("GAME OVER",font =("Arial", 30, "bold"))
 
 
 def update():
     for index in range(0,4):
         for inden in range(0,4):
             if (arr[index][inden]==None):
-                minen[f"{index}{inden}"]= None
+                minen[f"{index}{inden}"]= 0
             elif (arr[index][inden]==1):
                 minen[f"{index}{inden}"]= 1
             elif (arr[index][inden]==2):
@@ -48,12 +82,41 @@ def update():
                 minen[f"{index}{inden}"]= 10
             elif (arr[index][inden]==11):
                 minen[f"{index}{inden}"]= 11
+
+def imgstore(int):
+    if (int==0):
+        return("blank")
+    elif (int==1):
+        return("min1")
+    elif (int==2):
+        return("min2")
+    elif (int==3):
+        return("min3")
+    elif (int==4):
+        return("min4")
+    elif (int==5):
+        return("min5")
+    elif (int==6):
+        return("min6")
+    elif (int==7):
+        return("min7")
+    elif (int==8):
+        return("min8")
+    elif (int==9):
+        return("min9")
+    elif (int==10):
+        return("min10")
+    elif (int==11):
+        return("min11")
+
+
+
     
 def change():
     index = 0
     inden =0
     for m in hoopla:
-        m.write(minen.get(f"{index}{inden}"),font_setup)
+        m.shape(imgstore(minen.get(f"{index}{inden}")))
         inden+=1
         if (inden>3):
             index+=1
@@ -73,6 +136,8 @@ def rand_start():
     arr[y][x] =1
     arr[y2][x2] =1
     print(arr)
+    update()
+    change()
     
 def rand_normal():
     g=0
@@ -83,6 +148,7 @@ def rand_normal():
 
     if (g==16):
         print("Game Over")
+        Game_Over()
 
 
     else:
@@ -173,6 +239,7 @@ def right():
      allright()
      rand_normal()
      update()
+     change()
 
 def left():
      allleft()
@@ -190,6 +257,7 @@ def left():
      allleft()
      rand_normal()
      update()
+     change()
 
 
 def up():
@@ -208,6 +276,7 @@ def up():
     allup()
     rand_normal()
     update()
+    change()
 
 
 def down():
@@ -226,6 +295,7 @@ def down():
      alldown()
      rand_normal()
      update()
+     change()
 
 
 
@@ -233,7 +303,6 @@ def down():
 
 rand_start()
 print(arr)
-wn.onkeypress(change,"n")
 wn.onkeypress(right,"Right")
 wn.onkeypress(left,"Left")
 wn.onkeypress(up,"Up")
