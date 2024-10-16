@@ -5,6 +5,7 @@ import turtle as trtl
 wn =trtl.Screen()
 wn.bgpic("2048 background.png")
 
+# sets up different images of minions in their correct sizes 
 min1= PhotoImage(file=r"minion 1.png").subsample(17,17)
 min2= PhotoImage(file=r"minion 2.png").subsample(8,8)
 min3= PhotoImage(file=r"minion 3.png").subsample(3,3)
@@ -16,6 +17,7 @@ min8= PhotoImage(file=r"minion 8.png").subsample(5,5)
 min9= PhotoImage(file=r"minion 9.png").subsample(3,3)
 min10= PhotoImage(file=r"minion 10.png").subsample(15,15)
 min11= PhotoImage(file=r"minion 11.png").subsample(8,8)
+
 
 wn.addshape("min1", Shape("image", min1))
 wn.addshape("min2", Shape("image", min2))
@@ -30,6 +32,8 @@ wn.addshape("min10", Shape("image", min10))
 wn.addshape("min11", Shape("image", min11))
 
 
+
+#sets up array, a dict and the visual grid with the proper turtles
 arr = [[None, None, None, None], [None, None, None, None], [None, None, None, None], [None, None, None, None]]
 minen = {"00":0, "01":0, "02":0, "03":0, "10":0, "11":0, "12":0, "13":0, "20":0, "21":0, "22":0, "23":0, "30":0, "31":0, "32":0, "33":0}
 hoopla = []
@@ -47,6 +51,7 @@ for t in hoopla:
     t.goto((78*time-110),(-78*row+60))
     time+=1
 
+# function for the game over message
 def Game_Over():
     go =trtl.Turtle("blank")
     go.penup
@@ -55,6 +60,8 @@ def Game_Over():
     go.write("GAME OVER",font =("Arial", 30, "bold"))
 
 
+
+#function to update dict with the correct values from array 
 def update():
     for index in range(0,4):
         for inden in range(0,4):
@@ -83,6 +90,7 @@ def update():
             elif (arr[index][inden]==11):
                 minen[f"{index}{inden}"]= 11
 
+# function to call the right image bassed on values from the dict
 def imgstore(int):
     if (int==0):
         return("blank")
@@ -110,8 +118,7 @@ def imgstore(int):
         return("min11")
 
 
-
-    
+# Function to update the screen wtih the right images corresponding to the dict
 def change():
     index = 0
     inden =0
@@ -124,7 +131,7 @@ def change():
 
 
 
-
+# function to make two starter minions on the array
 def rand_start():
     x= rand.randint(0,3)
     x2= rand.randint(0,3)
@@ -138,7 +145,7 @@ def rand_start():
     print(arr)
     update()
     change()
-    
+# function to add either a level one or two minion for each move made by user
 def rand_normal():
     g=0
     for index in range(0,4):
@@ -146,9 +153,12 @@ def rand_normal():
             if (arr[index][inden]!=None):
                 g+=1
 
+
     if (g==16):
         print("Game Over")
         Game_Over()
+
+
 
 
     else:
@@ -163,6 +173,7 @@ def rand_normal():
         arr[y][x]=ran
         print(arr)
 
+#function to make all values in array go to the left
 def allleft():
     for index in range(0,4):
         for inden in range(0,3):
@@ -178,6 +189,7 @@ def allleft():
             else:
                 pass
 
+#function to make all values in array go to the right
 def allright():
     for index in range(0,4):
         for inden in range(-3,0):
@@ -193,6 +205,7 @@ def allright():
             else:
                 pass
 
+#function to make all values in array go up
 def allup():
     for index in range(0,4):
         for inden in range(0,3):
@@ -208,6 +221,7 @@ def allup():
             else:
                 pass
 
+#function to make all values in array go down
 def alldown():
     for index in range(0,4):
         for inden in range(-3,0):
@@ -223,6 +237,7 @@ def alldown():
             else:
                 pass
 
+# function for the right arrow
 def right():
      allright()
      for index in range(0,4):
@@ -241,6 +256,7 @@ def right():
      update()
      change()
 
+# function for the left arrow
 def left():
      allleft()
      for index in range(0,4):
@@ -260,6 +276,8 @@ def left():
      change()
 
 
+
+# function for the up arrow
 def up():
     allup()
     for index in range(0,4):
@@ -279,6 +297,8 @@ def up():
     change()
 
 
+
+# function for the down arrow
 def down():
      alldown()
      for index in range(0,4):
@@ -299,8 +319,12 @@ def down():
 
 
 
-    
 
+
+
+   
+
+# calls all functions to make the game work using on key commands
 rand_start()
 print(arr)
 wn.onkeypress(right,"Right")
